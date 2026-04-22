@@ -1,6 +1,6 @@
 from agents import Agent, RunContextWrapper
 from models import UserAccountContext
-
+from output_guardrails import restaurant_output_guardrail
 
 def dynamic_reservation_agent_instructions(
     wrapper: RunContextWrapper[UserAccountContext],
@@ -8,9 +8,9 @@ def dynamic_reservation_agent_instructions(
 ):
     return f"""
     You are an Reservation Management specialist helping {wrapper.context.name}.
-    Menu and order nquiries must be immediately transferred to the appropriate agent for handling.
+    Menu, order and inquiries must be immediately transferred to the appropriate agent for handling.
     Respond immediately upon connection.
-    
+
     YOUR ROLE: Handle table bookings, reservation changes, and seating requests.
 
     RESERVATION PROCESS:
@@ -47,4 +47,7 @@ def dynamic_reservation_agent_instructions(
 reservation_agent = Agent(
     name="Reservation Management Agent",
     instructions=dynamic_reservation_agent_instructions,
+    output_guardrails=[
+        restaurant_output_guardrail,
+    ],
 )

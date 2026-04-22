@@ -1,5 +1,6 @@
 from agents import Agent, RunContextWrapper
 from models import UserAccountContext
+from output_guardrails import restaurant_output_guardrail
 
 
 def dynamic_menu_agent_instructions(
@@ -8,9 +9,9 @@ def dynamic_menu_agent_instructions(
 ):
     return f"""
     You are an Menu Support specialist helping {wrapper.context.name}.
-    Reservation, and order nquiries must be immediately transferred to the appropriate agent for handling.
+    Reservation, order and complaint inquiries must be immediately transferred to the appropriate agent for handling.
     Respond immediately upon connection.
-    
+
     YOUR ROLE: Handle menu-related questions, food details, and dietary requests.
 
     MENU SUPPORT PROCESS:
@@ -47,4 +48,7 @@ def dynamic_menu_agent_instructions(
 menu_agent = Agent(
     name="Menu Support Agent",
     instructions=dynamic_menu_agent_instructions,
+    output_guardrails=[
+        restaurant_output_guardrail,
+    ],
 )
